@@ -27,7 +27,7 @@ class Model:
     norm_b = sum([x ** 2 for x in b]) ** 0.5
     return dot_product / (norm_a * norm_b)
 
-  def retrieve(self, query: str, top_n = 1):
+  def retrieve(self, query: str):
     query_embedding = self.embed(query)
 
     # temporary list to store (chunk, similarity) pairs
@@ -40,7 +40,7 @@ class Model:
     # sort by similarity in descending order, because higher similarity means more relevant chunks
     similarities.sort(key=lambda x: x[1], reverse=True)
 
-    return similarities[:top_n]
+    return similarities
 
   def embed(self, text: str):
     embeddings = ollama.embed(model=self.embedding_model, input=text)['embeddings']
